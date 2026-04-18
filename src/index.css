@@ -93,24 +93,25 @@ button {
 
 .stage-wrapper {
   position: relative;
-  margin-bottom: 28px;
-  padding: 34px 24px 22px;
-  border-radius: 22px;
-  background:
-    linear-gradient(180deg, rgba(34, 25, 25, 0.75), rgba(16, 12, 12, 0.45));
+  margin-bottom: 0;
+  padding: 28px 24px 0;
+  border-radius: 22px 22px 0 0;
+  background: linear-gradient(180deg, rgba(34, 25, 25, 0.75), rgba(16, 12, 12, 0.45));
   border: 1px solid rgba(199, 157, 92, 0.08);
-  overflow: hidden;
+  border-bottom: none;
+  overflow: visible;
 }
 
 .stage-glow {
   position: absolute;
-  top: -30px;
+  top: -20px;
   left: 50%;
   transform: translateX(-50%);
-  width: 70%;
-  height: 140px;
-  background: radial-gradient(circle, rgba(215, 179, 122, 0.18), transparent 70%);
+  width: 80%;
+  height: 160px;
+  background: radial-gradient(ellipse, rgba(215, 179, 122, 0.22), transparent 68%);
   pointer-events: none;
+  z-index: 1;
 }
 
 .stage-curtains {
@@ -126,20 +127,7 @@ button {
   );
   opacity: 0.95;
   pointer-events: none;
-}
-
-.stage-curtains::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(
-    90deg,
-    rgba(255, 255, 255, 0.05) 0px,
-    rgba(255, 255, 255, 0.05) 6px,
-    transparent 6px,
-    transparent 16px
-  );
-  opacity: 0.35;
+  z-index: 3;
 }
 
 .stage-curtains--left {
@@ -156,33 +144,44 @@ button {
   position: relative;
   z-index: 2;
   margin: 0 auto;
-  width: min(720px, 92%);
-  min-height: 120px;
-  border-radius: 0 0 120px 120px;
-  background:
-    linear-gradient(180deg, #2a1f1a 0%, #7a5330 20%, #8b6036 55%, #3d2619 100%);
-  border: 1px solid rgba(215, 179, 122, 0.2);
+  width: min(680px, 88%);
+  min-height: 100px;
+  border-radius: 50% 50% 50% 50% / 0% 0% 100% 100%;
+  background: linear-gradient(
+    180deg,
+    #1e1510 0%,
+    #5c3d20 18%,
+    #8b6036 45%,
+    #a07040 65%,
+    #3d2619 100%
+  );
+  border: 1.5px solid rgba(215, 179, 122, 0.25);
+  border-top: none;
   box-shadow:
-    inset 0 12px 18px rgba(255, 244, 220, 0.06),
-    inset 0 -10px 20px rgba(0, 0, 0, 0.4),
-    0 18px 30px rgba(0, 0, 0, 0.35);
+    inset 0 16px 24px rgba(255, 244, 220, 0.07),
+    inset 0 -8px 20px rgba(0, 0, 0, 0.5),
+    0 20px 40px rgba(0, 0, 0, 0.45),
+    0 8px 16px rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 8px;
+  padding: 16px 0 58px;   /* antes era 16px 0 28px */
+  margin-bottom: -1px;   /* déjalo igual */
 }
 
 .stage__label {
   color: #f1d19b;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   font-weight: 700;
   letter-spacing: 0.22em;
+  margin-top: 8px;
 }
 
 .stage__ornament {
-  width: 120px;
-  height: 2px;
+  width: 100px;
+  height: 1.5px;
   border-radius: 999px;
   background: linear-gradient(90deg, transparent, #c79d5c, transparent);
 }
@@ -191,9 +190,9 @@ button {
   display: flex;
   flex-wrap: wrap;
   gap: 18px;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
+  justify-content: center;   /* centrada como en la foto */
 }
-
 .seat-legend__item {
   display: flex;
   align-items: center;
@@ -224,15 +223,23 @@ button {
 .seat-grid {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
+  padding: 0 46px 24px;   /* antes era 0 8px 16px */
 }
 
 .seat-row {
   display: grid;
   grid-template-columns: 36px 1fr;
   gap: 14px;
-  align-items: center;
+  align-items: center;  /* ← vuelve a center, no end */
 }
+
+.seat-row:nth-child(1) { margin: 0 6% }
+.seat-row:nth-child(2) { margin: 0 4% }
+.seat-row:nth-child(3) { margin: 0 2.5% }
+.seat-row:nth-child(4) { margin: 0 1.2% }
+.seat-row:nth-child(5) { margin: 0 0.4% }
+.seat-row:nth-child(6) { margin: 0 }
 
 .seat-row__label {
   font-size: 1rem;
@@ -242,15 +249,17 @@ button {
 
 .seat-row__seats {
   display: grid;
-  grid-template-columns: repeat(10, minmax(42px, 1fr));
-  gap: 10px;
+  grid-template-columns: repeat(10, minmax(38px, 1fr));
+  gap: 8px;
+  align-items: center;  /* ← center también aquí */
 }
 
 .seat {
-  height: 44px;
-  border-radius: 14px 14px 10px 10px;
+  height: 44px;          /* altura fija explícita */
+  width: 100%;
+  border-radius: 12px 12px 8px 8px;
   border: 1px solid rgba(255, 248, 238, 0.08);
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   font-weight: 600;
   transition: all 0.2s ease;
 }
@@ -421,28 +430,5 @@ button {
 
   .theater-layout {
     padding: 20px;
-  }
-
-  .stage {
-    min-height: 100px;
-    border-radius: 0 0 70px 70px;
-  }
-
-  .stage__label {
-    font-size: 1rem;
-    letter-spacing: 0.14em;
-  }
-
-  .seat-row {
-    grid-template-columns: 28px 1fr;
-    gap: 10px;
-  }
-
-  .seat-row__seats {
-    grid-template-columns: repeat(5, minmax(40px, 1fr));
-  }
-
-  .stage-curtains {
-    width: 40px;
   }
 }
