@@ -351,6 +351,57 @@ button {
   filter: brightness(1.04);
 }
 
+.confirm-booking-btn {
+  width: 100%;
+  max-width: 300px;
+  margin: 20px auto 0;
+  padding: 13px 16px;
+  border: none;
+  border-radius: 14px;
+  background: linear-gradient(180deg, #d1a969 0%, #b9873f 100%);
+  color: #1a1411;
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  box-shadow:
+    0 12px 32px rgba(215, 179, 122, 0.18),
+    0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease, filter 0.2s ease;
+  position: relative;
+  overflow: hidden;
+  display: block;
+}
+
+.confirm-booking-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.confirm-booking-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  filter: brightness(1.04);
+}
+
+.confirm-booking-btn:hover:not(:disabled)::before {
+  left: 100%;
+}
+
+.confirm-booking-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.confirm-booking-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .reservation-summary {
   margin-top: 18px;
   padding: 14px;

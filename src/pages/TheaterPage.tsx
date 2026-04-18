@@ -59,6 +59,21 @@ export default function TheaterPage() {
     setMessage(`Se preseleccionaron ${suggestedSeatIds.size} asiento(s) automáticamente.`);
   };
 
+  const handleConfirmBooking = () => {
+    const selectedSeatIds = selectedSeats.map((seat) => seat.id);
+    setSeats((prevSeats) =>
+      prevSeats.map((row) =>
+        row.map((seat) =>
+          selectedSeatIds.includes(seat.id)
+            ? { ...seat, status: "occupied" }
+            : seat
+        )
+      )
+    );
+    setMessage("¡Reserva confirmada! Los asientos ahora aparecen como ocupados.");
+    setRequestedSeats(1);
+  };
+
   return (
     <main className="theater-page">
       <section className="hero">
@@ -84,6 +99,15 @@ export default function TheaterPage() {
           selectedSeats={selectedSeats}
           message={message}
         />
+
+        <button
+          type="button"
+          onClick={handleConfirmBooking}
+          disabled={selectedSeats.length === 0}
+          className="confirm-booking-btn"
+        >
+          Confirmar la reserva
+        </button>
       </section>
 
       <Footer />
