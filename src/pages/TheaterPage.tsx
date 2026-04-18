@@ -1,15 +1,20 @@
-import { useState } from "react";
-import { createInitialSeats } from "../data/seats";
+import { useMemo, useState } from "react";
 import Stage from "../components/Theater/Stage";
-import SeatLegend from "../components/Theater/SeatLegend";
 import SeatGrid from "../components/Theater/SeatGrid";
+import SeatLegend from "../components/Theater/SeatLegend";
 import ReservationForm from "../components/Theater/ReservationForm";
 import Footer from "../components/Layout/Footer";
-
+import { createInitialSeats } from "../data/seats";
+import { applySuggestedSeats, suggest } from "../utils/theaterHelpers";
 
 export default function TheaterPage() {
   const [seats, setSeats] = useState(createInitialSeats());
   const [requestedSeats, setRequestedSeats] = useState(1);
+  const [message, setMessage] = useState("");
+
+  const selectedSeats = useMemo(() => {
+    return seats.flat().filter((seat) => seat.status === "selected");
+  }, [seats]);
 
   const handleSeatClick = (seatId: number) => {
     setSeats((prevSeats) =>
@@ -29,10 +34,29 @@ export default function TheaterPage() {
         )
       )
     );
+
+    setMessage("");
   };
 
   const handleConfirmReservation = () => {
-    alert(`Reserva enviada para ${requestedSeats} asiento(s).`);
+    const suggestedSeatIds = suggest(seats, requestedSeats);
+
+    if (suggestedSeatIds.size === 0) {
+      setMessage("No se encontraron asientos consecutivos disponibles para esa cantidad.");
+      setSeats((prevSeats) =>
+        prevSeats.map((row) =>
+          row.map((seat) =>
+            seat.status === "selected"
+              ? { ...seat, status: "available" }
+              : seat
+          )
+        )
+      );
+      return;
+    }
+
+    setSeats((prevSeats) => applySuggestedSeats(prevSeats, suggestedSeatIds));
+    setMessage(`Se preseleccionaron ${suggestedSeatIds.size} asiento(s) automáticamente.`);
   };
 
   return (
@@ -57,6 +81,8 @@ export default function TheaterPage() {
           requestedSeats={requestedSeats}
           onRequestedSeatsChange={setRequestedSeats}
           onConfirm={handleConfirmReservation}
+          selectedSeats={selectedSeats}
+          message={message}
         />
       </section>
 

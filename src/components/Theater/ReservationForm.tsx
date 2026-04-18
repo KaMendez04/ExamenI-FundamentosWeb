@@ -1,13 +1,19 @@
+import type { Seat } from "../../types/seat";
+
 interface ReservationFormProps {
   requestedSeats: number;
   onRequestedSeatsChange: (value: number) => void;
   onConfirm: () => void;
+  selectedSeats: Seat[];
+  message: string;
 }
 
 export default function ReservationForm({
   requestedSeats,
   onRequestedSeatsChange,
   onConfirm,
+  selectedSeats,
+  message,
 }: ReservationFormProps) {
   return (
     <aside className="reservation-card">
@@ -18,24 +24,35 @@ export default function ReservationForm({
         <label htmlFor="seatCount">Cantidad de asientos</label>
         <input
           id="seatCount"
-          type="number"
-          min={1}
-          max={10}
+          type="text"
+          inputMode="numeric"
+          pattern="[0-9]*"
           value={requestedSeats}
-          onChange={(e) => onRequestedSeatsChange(Number(e.target.value))}
+          onChange={(e) => {
+            const digitsOnly = e.target.value.replace(/\D/g, "");
+            onRequestedSeatsChange(digitsOnly === "" ? 0 : Number(digitsOnly));
+          }}
         />
       </div>
 
       <button type="button" onClick={onConfirm}>
-        Confirmar reserva
+        Sugerir asientos
       </button>
 
       <div className="reservation-summary">
-        <h3>Detalle</h3>
-        <p>
-          Los asientos ocupados no pueden seleccionarse. Los asientos activos se
-          muestran resaltados.
-        </p>
+        <h3>Asientos seleccionados</h3>
+
+        {selectedSeats.length > 0 ? (
+          <p>
+            {selectedSeats
+              .map((seat) => `Fila ${String.fromCharCode(64 + seat.row)} - ${seat.number}`)
+              .join(", ")}
+          </p>
+        ) : (
+          <p>No hay asientos preseleccionados.</p>
+        )}
+
+        {message && <p className="reservation-message">{message}</p>}
       </div>
     </aside>
   );
