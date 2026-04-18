@@ -86,8 +86,8 @@ export default function TheaterPage() {
 
       <section className="theater-container">
         <div className="theater-layout">
-          <Stage />
           <SeatLegend />
+          <Stage />
           <SeatGrid seats={seats} onSeatClick={handleSeatClick} />
         </div>
 
