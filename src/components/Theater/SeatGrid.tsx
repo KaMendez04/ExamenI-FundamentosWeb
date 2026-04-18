@@ -12,6 +12,7 @@ export default function SeatGrid({ seats, onSeatClick }: SeatGridProps) {
       {seats.map((row, index) => (
         <SeatRow
           key={index}
+          rowIndex={index}
           rowLabel={String.fromCharCode(65 + index)}
           seats={row}
           onSeatClick={onSeatClick}
