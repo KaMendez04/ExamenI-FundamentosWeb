@@ -80,8 +80,7 @@ export default function TheaterPage() {
         <span className="hero__badge">TEATRO-UNA</span>
         <h1>Selección de asientos</h1>
         <p>
-          Reserva tus espacios en la sala principal con una vista clara,
-          elegante y fácil de usar.
+          Selecciona tu asiento y vive la experiencia desde el mejor lugar.
         </p>
       </section>
 
